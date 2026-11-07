@@ -4,6 +4,7 @@ package com.chat.service;
 import com.chat.dto.ApiResponse;
 import com.chat.dto.LoginRequest;
 import com.chat.dto.RegisterRequest;
+import com.chat.dto.UserResponse;
 import com.chat.model.User;
 import com.chat.repository.UserRepository;
 
@@ -27,7 +28,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public ApiResponse<Void> register(RegisterRequest request) {
+    public ApiResponse<UserResponse> register(RegisterRequest request) {
 
         if (userRepository.existsByUsername(request.getUsername())) {
             return new ApiResponse<>(
@@ -46,17 +47,17 @@ public class AuthService {
                 hashedPassword
         );
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         return new ApiResponse<>(
                 true,
                 "User registered successfully",
                 HttpStatus.CREATED,
-                null
+                UserResponse.from(savedUser)
         );
     }
 
-    public ApiResponse<Void> login(LoginRequest request) {
+    public ApiResponse<UserResponse> login(LoginRequest request) {
 
         Optional<User> optionalUser =
                 userRepository.findByUsername(request.getUsername());
@@ -90,7 +91,7 @@ public class AuthService {
                 true,
                 "Login successful",
                 HttpStatus.OK,
-                null
+                UserResponse.from(user)
         );
     }
 }

@@ -3,6 +3,7 @@ package com.chat.controller;
 import com.chat.dto.ApiResponse;
 import com.chat.dto.LoginRequest;
 import com.chat.dto.RegisterRequest;
+import com.chat.dto.UserResponse;
 import com.chat.service.AuthService;
 
 import org.springframework.http.ResponseEntity;
@@ -22,10 +23,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Void>> register(
+    public ResponseEntity<ApiResponse<UserResponse>> register(
             @RequestBody RegisterRequest request
     ) {
-        ApiResponse<Void> response = authService.register(request);
+        ApiResponse<UserResponse> response = authService.register(request);
 
         return ResponseEntity
                 .status(response.getHttpCode())
@@ -33,10 +34,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<Void>> login(
+    public ResponseEntity<ApiResponse<UserResponse>> login(
             @RequestBody LoginRequest request
     ) {
-        ApiResponse<Void> response = authService.login(request);
+        ApiResponse<UserResponse> response = authService.login(request);
 
         return ResponseEntity
                 .status(response.getHttpCode())
