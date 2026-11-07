@@ -97,6 +97,22 @@ curl --request POST http://localhost:8080/api/auth/register \
 
 Returns `201 Created` when the username is new, or `409 Conflict` when it already exists.
 
+A successful registration returns the ID needed to send messages:
+
+```json
+{
+  "success": true,
+  "message": "User registered successfully",
+  "httpCode": "CREATED",
+  "data": {
+    "id": "6910d7ab4c9e2e3a1f123456",
+    "username": "alice"
+  }
+}
+```
+
+Use `data.id` as `senderId` or `receiverId`. The password and its hash are never included in the response.
+
 ### Log in
 
 `POST /api/auth/login`
